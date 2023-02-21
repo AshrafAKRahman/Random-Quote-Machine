@@ -1,52 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.scss";
 
+let quoteDb =
+  "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json";
 function App() {
-  const [quote, setQuote] = useState(
-    "If the wind will not serve, take to the oars."
-  );
-  const [author, setAuthor] = useState("Latin Proverb");
+  const [quote, setQuote] = useState("click to generate a random quote");
+  const [author, setAuthor] = useState("Ashraf Rahman");
   const [randomNumber, setRandomNumber] = useState(0);
+  const [quotesArray, setQuotesArray] = useState(null);
 
-  const generateRandomNumber = () => {
-    let randomInteger = Math.floor(3 * Math.random());
-    setRandomNumber(randomInteger);
-    if (randomInteger === 0) {
-      setQuote(quotesArr[0].quote);
-      setAuthor(quotesArr[0].author);
-    }
-    if (randomInteger === 1) {
-      setQuote(quotesArr[1].quote);
-      setAuthor(quotesArr[1].author);
-    }
-    if (randomInteger === 2) {
-      setQuote(quotesArr[2].quote);
-      setAuthor(quotesArr[2].author);
-    }
+  const fetchQuotes = async (url) => {
+    const response = await fetch(url);
+    const parsedJSON = await response.json();
+    setQuotesArray(parsedJSON.quotes);
+    console.log(parsedJSON);
   };
 
-  const quotesArr = [
-    {
-      quote: `If the wind will not serve, take to the oars.`,
-      author: "Latin Proverb",
-    },
-    {
-      quote: `Believe you can and you’re halfway there`,
-      author: "Theodore Roosevelt",
-    },
-    {
-      quote: `Dreaming, after all, is a form of planning.`,
-      author: "Gloria Steinem",
-    },
-  ];
+  useEffect(() => {
+    fetchQuotes(quoteDb);
+  }, [quoteDb]);
+
+  const getRandomQuote = () => {
+    let randomInteger = Math.floor(quotesArray.length * Math.random());
+    setRandomNumber(randomInteger);
+    setQuote(quotesArray[randomInteger].quote);
+    setAuthor(quotesArray[randomInteger].author);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Random Number: {randomNumber}</h1>
-        <button onClick={() => generateRandomNumber()}>
-          Generate Random Number
-        </button>
+        <h1>Random Quote No {randomNumber}</h1>
+        <button onClick={() => getRandomQuote()}>Generate Random quote</button>
         <p>"{quote}"</p>
         <p>- {author}</p>
       </header>
