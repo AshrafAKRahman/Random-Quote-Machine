@@ -1,5 +1,38 @@
 .App{
   text-align: center;
+  #quote-box {
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    #author {
+      text-align: end;
+    }
+    .button{
+      #tweet-quote{
+        border-radius: 10px;
+        float: left;
+        padding: 10px;
+        color: #ffff;
+        text-decoration: none;
+      }
+      color: #ffff;
+      text-decoration: none;
+    }
+    #tweet-quote{
+      float: left;
+      padding-left: 5%;
+    }
+    #new-quote {
+      float: right;
+      color: white;
+      border-radius: 10px;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+  }
   .App-header {
     background-color: #282c34;
     min-height: 100vh;
